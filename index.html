@@ -1,0 +1,115 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="bootstrap.css" />
+    <title>CRUD</title>
+    <style></style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-10">
+          <h2>Novo contato</h2>
+          <hr />
+          <form id="contactForm" class="form-horizontal">
+            <div class="form-group">
+              <label for="name" class="col-sm-2 control-label">Nome</label>
+              <div class="col-sm-10">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="nome"
+                  placeholder="Nome"
+                />
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-10">
+                <button
+                  type="button"
+                  class="btn btn-outline-success"
+                  id="criar"
+                >
+                  Criar
+                </button>
+              </div>
+            </div>
+          </form>
+          <hr />
+        </div>
+      </div>
+
+      <div class="col-md-10">
+        <h2>Contatos</h2>
+        <hr />
+        <div id="listacontato"></div>
+      </div>
+    </div>
+
+    <script src="node_modules/socket.io-client/dist/socket.io.js"></script>
+    <script>
+      (function() {
+        const element = id => document.getElementById(id);
+
+        // Get elements
+        let nome = element("nome");
+        let listacontato = element("listacontato");
+        let criar = element("criar");
+        let contato = element("contato");
+
+        let ulist = new Set();
+
+        let current = element("current");
+
+        // Connect to socket.io
+        let socket = io.connect("http://localhost:4000");
+
+        // Check for connection
+        if (socket !== undefined) {
+          let currentUser = -1;
+          console.log("connected to socket...");
+
+          // Handle output
+          socket.on("listacontatos", data => {
+            // console.log(data)
+            if (data.length) {
+              data.forEach(data => {
+                // console.log(data)
+                ulist.add(`
+                            <form>
+                            <div  class="input-group">
+                            <input id="contato" type="text" class="form-control" aria-label="Recipient's username" aria-describedby="basic-addon2" disabled placeholder="Digite um nome" value="${data.name}">
+                            <div class="input-group-append">
+                                <input id="editar" class="btn btn-outline-warning" type="button" data-key="${data.id}"  value="Editar" onclick="editar(${data.id})">
+                                <input id="apagar" class="btn btn-outline-danger" type="button" value="Apagar">
+                            </div>
+                            </div></form>`);
+
+                //ulist.add(`<tr><td>${data.name}</td>
+                //<td><button type="button" class="btn btn-outline-warning" data-key="${data.id}" onclick='currentUser = ${data.id}; current.innerHTML = currentUser; current.innerHTML += "${' ' + data.name}"'>Editar</button>
+                listacontato.innerHTML = [...ulist].reduce((a, b) => a + b);
+                // data-key="${data.id}" onclick='currentUser = ${data.id}; current.innerHTML = currentUser; current.innerHTML += "${' ' + data.name}"'
+              });
+            }
+          });
+          function editar(id) {
+            console.log(id);
+          }
+
+          // handle input
+          criar.addEventListener("click", event => {
+            // Emit to the server
+            //console.log(username.value)
+            socket.emit("insert_user", {
+              name: nome.value
+            });
+            event.preventDefault();
+          });
+        }
+      })();
+    </script>
+  </body>
+</html>
