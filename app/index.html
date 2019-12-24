@@ -94,27 +94,45 @@
 
     <div class="modal fade" id="modal-edit">
       <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 class="modal-title">Editar</h4>
+        <form id="form_edit">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">Editar</h4>
 
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-hidden="true"
-            >
-              &times;
-            </button>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-hidden="true"
+              >
+                &times;
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="form-group">
+                <input type="hidden" id="form_edit_id" name="id" />
+                <label for="">Nome</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="form_edit_nome"
+                  name="nome"
+                  placeholder="Nome"
+                />
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-default"
+                data-dismiss="modal"
+              >
+                Cancelar
+              </button>
+              <button type="submit" class="btn btn-primary">Salvar</button>
+            </div>
           </div>
-          <div class="modal-body"></div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">
-              Cancelar
-            </button>
-            <button type="button" class="btn btn-primary">Salvar</button>
-          </div>
-        </div>
+        </form>
       </div>
     </div>
 
