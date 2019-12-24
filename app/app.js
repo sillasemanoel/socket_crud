@@ -1,4 +1,7 @@
+// pega elemento que vai listar
 var contatos = document.getElementById("listacontato");
+
+// class bootstrap da lista
 var classNameList =
   "list-group-item d-flex justify-content-between align-items-center";
 
@@ -6,6 +9,8 @@ var classNameList =
 var socket = io("http://localhost:4000/");
 
 // eventos
+// _list_contacts é como se tivesse aqui dentro, mas resolvi separar
+// mas ela ainda recebe os paramentros que vem do socket
 socket.on("LIST_CONTACTS", _list_contacts);
 socket.on("CONTACT_DELETED_SUCCESS", _alert_contact_deleted);
 

@@ -1,13 +1,18 @@
 var app = require("express")();
 var http = require("http").createServer(app);
 var io = require("socket.io")(http);
+// pega as variaveis de .env
+require("dotenv").config();
 
 const db = require("./db/index");
 
+// base da api
+// http://localhost:4000/
 app.get("/", function(req, res) {
   res.send({ status: "api online" });
 });
 
+// socket
 io.on("connection", function(socket) {
   console.log("novo usuario: ", socket.id);
 
@@ -43,6 +48,6 @@ io.on("connection", function(socket) {
   });
 });
 
-http.listen(4000, function() {
-  console.log("listening on *:4000");
+http.listen(process.env.APP_PORT, function() {
+  console.log("listening on:", process.env.APP_PORT);
 });
