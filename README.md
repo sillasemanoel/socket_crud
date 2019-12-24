@@ -6,3 +6,6 @@
 `npm install`
 
 `npm start`
+
+
+abre o index.html
