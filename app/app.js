@@ -142,7 +142,7 @@ function _alert_contact_edited(data) {
 }
 
 $("#form_edit").submit(function() {
-  let id = $("#form_edit_id").val();
+  let id = Number($("#form_edit_id").val());
   let nome = $("#form_edit_nome").val();
 
   // transformo em json
@@ -158,6 +158,10 @@ $("#form_edit").submit(function() {
   // quando abro o model tenho o id do usuario q vai atualizar
   // ai consigo pegar assim :)
   $(`#user-${id}`).text(nome);
+
+  $(`#user-${id}`)
+    .parent()
+    .attr("data-user-nome", nome);
 
   $("#modal-edit").modal("hide");
 
